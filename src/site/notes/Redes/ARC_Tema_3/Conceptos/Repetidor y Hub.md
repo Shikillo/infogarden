@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/repetidor-y-hub/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Repetidor","Hub","Repeater","Concentrador"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"pendiente","estado":"nuevo"}}
+{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/repetidor-y-hub/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Repetidor","Hub","Repeater","Concentrador"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"verificado","estado":"nuevo"}}
 ---
 
 # Repetidor y Hub
@@ -24,6 +24,9 @@ Comportamiento resumido (p. 10 y tabla p. 48):
 > [!example]
 > Dos ramas de cable Ethernet unidas por un repetidor forman **un solo** [[Redes/ARC_Tema_3/Conceptos/Dominio de Colisión\|dominio de colisión]]: si A (rama 1) y B (rama 2) transmiten a la vez, colisionan igual que si estuvieran en el mismo cable (p. 10). Si en su lugar hubiera un switch, cada rama sería un dominio distinto (p. 16).
 
+## Cómo podrías haberlo descubierto
+Si la señal se **atenúa** con la distancia, lo mínimo que puedes hacer para extender el cable es **leer los bits y volver a emitirlos** más fuertes y limpios: eso es un repetidor. Si además tienes **varias ramas de cable** que quieres unir, generalizas el repetidor a **varios puertos** y lo llamas hub. Pero fíjate en lo que **no** has añadido: ni memoria de qué estación cuelga de qué puerto, ni interpretación de la trama. El dispositivo sigue siendo **ciego a los formatos** (p. 8-9). Esa ceguera es la que hace que **unifique el dominio de colisión y el de difusión**: para él, todos los puertos son "el mismo cable". El salto a un switch requiere añadir **lectura de MAC y tabla**: no es un repetidor "mejor", es una idea distinta.
+
 ## Depende de
 - [[Redes/ARC_Tema_1/Conceptos/Capa Física\|Capa Física]] (Tema 1): es la capa en la que operan.
 - [[Redes/ARC_Tema_1/Conceptos/Medios de Transmisión\|Medios de Transmisión]] (Tema 1): el repetidor existe por culpa de la atenuación del medio.
@@ -42,7 +45,8 @@ Comportamiento resumido (p. 10 y tabla p. 48):
 > Porque el hub proporciona **ancho de banda compartido** (p. 9): los 100 Mbps son los del medio común. En cualquier instante solo una estación transmite sin colisión; si hay 5 muy activas, la capacidad útil por estación es una fracción de los 100 Mbps y empeora con las colisiones (p. 9, 10).
 
 ## Contraste
-*(pendiente)*
+> [!success] Verificado
+> Clasificación como dispositivos de nivel 1, hub como repetidor multipuerto y comportamiento ante dominio de colisión/difusión (expanden ambos) coinciden con Wikipedia (*Repeater*, *Ethernet hub*) y con la tabla del material (p. 48). Sin discrepancias.
 
 ## Fuentes
 - [[Redes/ARC_Tema_3/Fuente - ARC_Tema_3\|Fuente - ARC_Tema_3]], p. 7, 8, 9, 10, 48

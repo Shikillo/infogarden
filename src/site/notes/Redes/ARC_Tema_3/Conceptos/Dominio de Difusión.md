@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/dominio-de-difusion/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Broadcast Domain","Dominio Broadcast"],"tags":["materia/redes","tema/protocolos"],"nivel":0,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"pendiente","estado":"nuevo"}}
+{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/dominio-de-difusion/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Broadcast Domain","Dominio Broadcast"],"tags":["materia/redes","tema/protocolos"],"nivel":0,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"verificado","estado":"nuevo"}}
 ---
 
 # Dominio de Difusión
@@ -22,6 +22,9 @@ Comportamiento según el dispositivo (resumido en la tabla de p. 48):
 > [!example]
 > Red con dos switches S1 y S2 conectados por un router R1. Si A envía ARP (difusión) por S1, el switch replica a sus puertos y la trama cruza S1 entero; pero R1 **no** la pasa a S2. S1 forma un dominio de difusión; S2, otro distinto (p. 17, 46).
 
+## Cómo podrías haberlo descubierto
+En una red de un solo cable, "difusión" es la condición **natural** del medio: todo lo que mande cualquiera llega a todos. Al introducir dispositivos de interconexión, surge una pregunta: *"¿cuánto se propaga una trama dirigida a `FF:FF:FF:FF:FF:FF`?"*. Un hub la reparte sin pensar; un switch tampoco se la queda, porque **no sabe por qué puerto está "todos"**; solo el router, que entiende de redes IP distintas, puede decir *"a mí esa difusión no me cruza"*. De esa pregunta sale la definición: el dominio es **todo lo que la trama alcanza sin topar con un router**.
+
 ## Depende de
 - La trama Ethernet y su campo *Dirección Destino* (p. 6), donde la dirección especial `FF:FF:FF:FF:FF:FF` marca el destino "a todos".
 
@@ -39,7 +42,8 @@ Comportamiento según el dispositivo (resumido en la tabla de p. 48):
 > Porque el switch opera a nivel 2 y, al no entender IP, propaga la trama `FF:FF:FF:FF:FF:FF` por todos sus puertos (p. 17). El router opera a nivel 3: ve el paquete IP y **considera cada interfaz una red distinta**, por lo que no reenvía la difusión al otro lado (p. 46).
 
 ## Contraste
-*(pendiente)*
+> [!success] Verificado
+> La definición (área alcanzable por una trama de difusión), el papel de la MAC `FF:FF:FF:FF:FF:FF` y el comportamiento de cada dispositivo (hub/switch expanden, router divide) coinciden con Wikipedia (*Broadcast domain*) y con la tabla resumen del propio material (p. 48). Sin discrepancias.
 
 ## Fuentes
 - [[Redes/ARC_Tema_3/Fuente - ARC_Tema_3\|Fuente - ARC_Tema_3]], p. 6, 10, 17, 46, 48

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/router/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Enrutador","Router IP"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"pendiente","estado":"nuevo"}}
+{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/router/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Enrutador","Router IP"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"verificado","estado":"nuevo"}}
 ---
 
 # Router
@@ -23,6 +23,27 @@ Características que indica el material:
 > [!example]
 > En la topología de p. 41, R1 recibe un paquete destinado a `21.128.2.10`. Consulta su tabla, encuentra la entrada `21.128.2.0 / 255.255.255.0 → 195.128.56.2` y lo reenvía por su interfaz hacia R2, que a su vez lo entrega localmente (p. 41).
 
+### Cómo construye el router sus tablas
+Las tablas no se escriben a mano (salvo rutas estáticas): los routers **comparten información** mediante **protocolos de encaminamiento** (p. 18, 40):
+
+| Protocolo | Familia | Full-Class / Classless |
+|---|---|---|
+| **RIP v1** | Vector de distancias | Full-Class |
+| **RIP v2** | Vector de distancias | Classless |
+| **OSPF** | Estado del enlace | Classless |
+
+- **Vector de distancias**: cada router comparte con sus vecinos su "tabla resumida" (red destino → coste). Simple, convergencia lenta.
+- **Estado del enlace** (OSPF): cada router difunde el estado de sus enlaces, y todos construyen el **mapa completo** aplicando Dijkstra. Más complejo, converge más rápido.
+
+### Qué hace exactamente un router al recibir un paquete
+1. Si la trama tiene **CRC** erróneo, la descarta (p. 45).
+2. Decapsula la trama de nivel 2 y toma el **datagrama IP**.
+3. **Decrementa el TTL**; si llega a 0, descarta y manda ICMP (p. 36).
+4. Busca en la tabla la **ruta con el prefijo más largo** que case con la IP destino.
+5. Si el **MTU** de la interfaz de salida es menor que el datagrama y DF=0, **fragmenta** (ver [[Redes/ARC_Tema_3/Conceptos/Fragmentación de Datagramas IP\|Fragmentación de Datagramas IP]]).
+6. Resuelve con **ARP** la MAC del siguiente salto en la red de salida.
+7. Encapsula el datagrama en una nueva trama y lo transmite.
+
 ## Depende de
 - [[Redes/ARC_Tema_3/Conceptos/IP y ARP\|IP y ARP]]: el router se mueve con direcciones IP; necesita ARP para resolver la MAC del siguiente salto en cada red.
 - [[Redes/ARC_Tema_3/Conceptos/Subnetting y Supernetting\|Subnetting y Supernetting]]: las máscaras de las tablas de encaminamiento salen de esta técnica (p. 42-44).
@@ -41,8 +62,12 @@ Características que indica el material:
 > [!question]- ¿Qué diferencia a un router de un switch respecto a los dominios de colisión y difusión?
 > El **switch divide colisión pero expande difusión** (p. 17). El **router divide ambos**: colisión (p. 45) y difusión (p. 46). Esa es la razón de que el router sea la frontera entre LANs y el switch solo divida colisión dentro de una misma LAN (p. 48).
 
+## Cómo podrías haberlo descubierto
+Si tienes LANs con **tecnologías físicas distintas** (Ethernet por un lado, Wi-Fi por otro, un enlace WAN serie por un tercero), un switch no sirve: no sabe hablar varios "idiomas" físicos a la vez. Lo que necesitas es un dispositivo que **lea un direccionamiento común** por encima de la MAC —IP— y que, mirando ese direccionamiento, decida **por qué interfaz** mandar cada paquete. Eso es un router. Y si varios routers tienen que coordinarse para que un paquete llegue de una punta de la red a la otra, necesitan **compartir información** sobre qué saben llegar y por dónde: nacen los **protocolos de encaminamiento** (RIP, OSPF). La función básica del router sale de responder, una por una, a estas tres preguntas: *"¿esta IP está en mi red local?"* (si sí, ARP y entrego) *"¿y si no, por qué puerto?"* (tabla) *"¿y cómo mantengo la tabla al día?"* (protocolo de enrutamiento).
+
 ## Contraste
-*(pendiente)*
+> [!success] Verificado
+> El rol del router (nivel 3, encamina IP, divide colisión y difusión), las tablas con máscara/gateway y los protocolos **RIP** / **OSPF** se han contrastado con Wikipedia (*Router (computing)*, *RIP*, *OSPF*) y con las RFCs correspondientes (**RFC 2453** RIPv2, **RFC 2328** OSPFv2). Sin discrepancias.
 
 ## Fuentes
 - [[Redes/ARC_Tema_3/Fuente - ARC_Tema_3\|Fuente - ARC_Tema_3]], p. 18, 41, 45, 46, 48

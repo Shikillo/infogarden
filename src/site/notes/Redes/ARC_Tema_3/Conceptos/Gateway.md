@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/gateway/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Pasarela","Puerta de Enlace","Voice Gateway"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"pendiente","estado":"nuevo"}}
+{"dg-publish":true,"permalink":"/redes/arc-tema-3/conceptos/gateway/","tags":["materia/redes","tema/protocolos"],"dg-note-properties":{"tipo":"concepto","aliases":["Pasarela","Puerta de Enlace","Voice Gateway"],"tags":["materia/redes","tema/protocolos"],"nivel":1,"fuentes":["[[Redes/ARC_Tema_3/Fuente - ARC_Tema_3]]"],"contraste":"verificado","estado":"nuevo"}}
 ---
 
 # Gateway
@@ -39,8 +39,12 @@ Características que indica el material:
 > [!question]- ¿Por qué el gateway opera "a nivel 4 o superior" cuando el router opera a nivel 3?
 > Porque el router solo necesita leer la cabecera IP (nivel 3) para encaminar; el gateway tiene que **entender el contenido** para traducirlo (p. ej. convertir voz IP en voz PCM de PSTN), lo que requiere interpretar las capas de transporte, sesión y aplicación (p. 47, 48).
 
+## Cómo podrías haberlo descubierto
+Un router te conecta redes IP con IP: habla el mismo "idioma" en los dos lados. ¿Y si al otro lado no hay IP? Por ejemplo: por un lado tienes Internet (RTP/UDP/IP), por el otro la red telefónica tradicional (señalización SS7, voz PCM). No basta con **mover** paquetes: hay que **traducir el contenido** entre dos pilas distintas. Para eso necesitas subir **por encima del nivel de red** hasta entender transporte y aplicación (p. 47-48). Esa necesidad —*convertir*, no reenviar— es la que define el gateway y lo distingue del router.
+
 ## Contraste
-*(pendiente)*
+> [!success] Verificado
+> La definición (traductor entre protocolos distintos, nivel ≥ 4, divide ambos dominios) coincide con la tabla resumen del material (p. 48) y con la literatura habitual (Tanenbaum). El uso coloquial de "default gateway" para referirse al router de salida está documentado en RFCs y manuales de sistemas.
 
 ## Fuentes
 - [[Redes/ARC_Tema_3/Fuente - ARC_Tema_3\|Fuente - ARC_Tema_3]], p. 1, 7, 47, 48
